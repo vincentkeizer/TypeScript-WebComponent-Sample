@@ -12,19 +12,19 @@ class MyElement extends HTMLElement {
         this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
     
-    connectedCallback() {
+    private connectedCallback(): void {
         console.log('connected!');
     }
     
-    disconnectedCallback() {
+    private disconnectedCallback(): void {
         console.log('disconnected!');
     }
     
-    attributeChangedCallback(name, oldVal, newVal) {
+    private attributeChangedCallback(name:string, oldVal:string, newVal:string): void {
         console.log(`Attribute: ${name} changed!`);
     }
     
-    adoptedCallback() {
+    private adoptedCallback():void {
         console.log('adopted!');
     }
 }
