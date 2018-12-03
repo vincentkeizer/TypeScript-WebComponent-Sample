@@ -1,31 +1,34 @@
-const template = document.createElement('template');
-template.innerHTML = "<style>h1 { color:red } </style><h1>Hello World!</h1>";
-
 class MyElement extends HTMLElement {
-        
+    template = document.createElement('template');        
+    
     constructor() {
         // always call super() first
         super(); 
-        console.log('constructed!');
+        console.log('My-Element constructed!');
 
-         this.attachShadow({ 'mode': 'open' });
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.template.innerHTML =   "<style>h1 { color:red } </style>" +
+                                    "<h1>Hello World!</h1>" + 
+                                    "<my-sub-element title=\"first element\"></my-sub-element>" + 
+                                    "<my-sub-element title=\"second element\"></my-sub-element>";
+        
+        this.attachShadow({ 'mode': 'open' });
+        this.shadowRoot.appendChild(this.template.content.cloneNode(true));
     }
     
     private connectedCallback(): void {
-        console.log('connected!');
+        console.log('My-Element  connected!');
     }
     
     private disconnectedCallback(): void {
-        console.log('disconnected!');
+        console.log('My-Element disconnected!');
     }
     
     private attributeChangedCallback(name:string, oldVal:string, newVal:string): void {
-        console.log(`Attribute: ${name} changed!`);
+        console.log(`My-Element Attribute: ${name} changed!`);
     }
     
     private adoptedCallback():void {
-        console.log('adopted!');
+        console.log('My-Element adopted!');
     }
 }
 

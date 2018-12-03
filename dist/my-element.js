@@ -11,30 +11,33 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var template = document.createElement('template');
-template.innerHTML = "<style>h1 { color:red } </style><h1>Hello World!</h1>";
 var MyElement = /** @class */ (function (_super) {
     __extends(MyElement, _super);
     function MyElement() {
         var _this = 
         // always call super() first
         _super.call(this) || this;
-        console.log('constructed!');
+        _this.template = document.createElement('template');
+        console.log('My-Element constructed!');
+        _this.template.innerHTML = "<style>h1 { color:red } </style>" +
+            "<h1>Hello World!</h1>" +
+            "<my-sub-element title=\"first element\"></my-sub-element>" +
+            "<my-sub-element title=\"second element\"></my-sub-element>";
         _this.attachShadow({ 'mode': 'open' });
-        _this.shadowRoot.appendChild(template.content.cloneNode(true));
+        _this.shadowRoot.appendChild(_this.template.content.cloneNode(true));
         return _this;
     }
     MyElement.prototype.connectedCallback = function () {
-        console.log('connected!');
+        console.log('My-Element  connected!');
     };
     MyElement.prototype.disconnectedCallback = function () {
-        console.log('disconnected!');
+        console.log('My-Element disconnected!');
     };
     MyElement.prototype.attributeChangedCallback = function (name, oldVal, newVal) {
-        console.log("Attribute: " + name + " changed!");
+        console.log("My-Element Attribute: " + name + " changed!");
     };
     MyElement.prototype.adoptedCallback = function () {
-        console.log('adopted!');
+        console.log('My-Element adopted!');
     };
     return MyElement;
 }(HTMLElement));
