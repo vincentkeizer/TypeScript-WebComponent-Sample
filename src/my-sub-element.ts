@@ -18,6 +18,12 @@ class MySubElement extends HTMLElement {
         }
     }
     
+    static get observedAttributes():string[] {
+        console.log('MySubElement configuring attributes to watch');
+
+        return ['title'];
+    }
+
     private setTitle(title:string):void {
         this.shadowRoot.lastElementChild.innerHTML = title;
     }

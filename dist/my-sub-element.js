@@ -29,6 +29,14 @@ var MySubElement = /** @class */ (function (_super) {
         }
         return _this;
     }
+    Object.defineProperty(MySubElement, "observedAttributes", {
+        get: function () {
+            console.log('MySubElement configuring attributes to watch');
+            return ['title'];
+        },
+        enumerable: true,
+        configurable: true
+    });
     MySubElement.prototype.setTitle = function (title) {
         this.shadowRoot.lastElementChild.innerHTML = title;
     };

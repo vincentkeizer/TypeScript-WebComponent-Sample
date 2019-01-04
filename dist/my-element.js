@@ -21,12 +21,29 @@ var MyElement = /** @class */ (function (_super) {
         console.log('My-Element constructed!');
         _this.template.innerHTML = "<style>h1 { color:red } </style>" +
             "<h1>Hello World!</h1>" +
-            "<my-sub-element title=\"first element\"></my-sub-element>" +
-            "<my-sub-element title=\"second element\"></my-sub-element>";
+            "<form><input type=\"text\" placeholder=\"title\" />" +
+            "<button type=\"submit\">add sub element</button>" +
+            "</form>";
         _this.attachShadow({ 'mode': 'open' });
         _this.shadowRoot.appendChild(_this.template.content.cloneNode(true));
+        var submitButton = _this.shadowRoot.querySelector('button');
+        submitButton.addEventListener('click', _this.addSubElement.bind(_this));
         return _this;
     }
+    MyElement.prototype.addSubElement = function (event) {
+        event.preventDefault();
+        var titleInput = this.shadowRoot.querySelector('input');
+        if (titleInput.value.length > 0) {
+            this.createAndAttachSubElement(titleInput.value);
+            titleInput.value = '';
+            titleInput.focus();
+        }
+    };
+    MyElement.prototype.createAndAttachSubElement = function (title) {
+        var subElement = document.createElement("my-sub-element");
+        subElement.setAttribute("title", title);
+        this.shadowRoot.appendChild(subElement);
+    };
     MyElement.prototype.connectedCallback = function () {
         console.log('My-Element  connected!');
     };

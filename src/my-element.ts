@@ -1,5 +1,5 @@
 class MyElement extends HTMLElement {
-    template = document.createElement('template');        
+    private template:HTMLTemplateElement = document.createElement('template');
     
     constructor() {
         // always call super() first
@@ -7,14 +7,35 @@ class MyElement extends HTMLElement {
         console.log('My-Element constructed!');
 
         this.template.innerHTML =   "<style>h1 { color:red } </style>" +
-                                    "<h1>Hello World!</h1>" + 
-                                    "<my-sub-element title=\"first element\"></my-sub-element>" + 
-                                    "<my-sub-element title=\"second element\"></my-sub-element>";
+                                    "<h1>Hello World!</h1>"+
+                                    "<form><input type=\"text\" placeholder=\"title\" />" +
+                                    "<button type=\"submit\">add sub element</button>"+
+                                    "</form>";  
         
         this.attachShadow({ 'mode': 'open' });
         this.shadowRoot.appendChild(this.template.content.cloneNode(true));
+
+        let submitButton = this.shadowRoot.querySelector('button');
+        submitButton.addEventListener('click', this.addSubElement.bind(this));
     }
     
+    private addSubElement(event:Event) : void {
+        event.preventDefault();
+
+        let titleInput = this.shadowRoot.querySelector('input');
+        if(titleInput.value.length > 0){
+           this.createAndAttachSubElement(titleInput.value);
+           titleInput.value = '';
+           titleInput.focus();
+        }
+    }
+
+    private createAndAttachSubElement(title:string) : void {
+        let subElement = document.createElement("my-sub-element");
+        subElement.setAttribute("title", title);
+        this.shadowRoot.appendChild(subElement);
+    }
+
     private connectedCallback(): void {
         console.log('My-Element  connected!');
     }
